@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   images: {
-    domains: ['irbkvjomakcxeyodvoz.supabase.co'],
+    unoptimized: true,
   },
-  experimental: {
-    serverActions: true,
-  },
+  basePath: process.env.NODE_ENV === 'production' ? '/mediscript' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/mediscript/' : '',
 }
 
 module.exports = nextConfig
