@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prescription Generator | MediScript</title>
+    <title>AI Prescription Generator | MediScript by EdgesOf</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
@@ -13,9 +13,19 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
+        :root {
+            --primary-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --bg-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+        }
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-gradient);
             min-height: 100vh;
+            transition: background 0.3s ease;
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
         
         .glass-card {
@@ -23,10 +33,28 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .glass-card {
+            background: rgba(30, 30, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-mode .text-gray-900 {
+            color: #e0e0e0 !important;
+        }
+        
+        .dark-mode .text-gray-600 {
+            color: #a0a0a0 !important;
+        }
+        
+        .dark-mode .text-gray-700 {
+            color: #b0b0b0 !important;
         }
         
         .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -37,8 +65,8 @@
         }
         
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
-            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8); }
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8); }
         }
         
         .floating {
@@ -69,13 +97,13 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             transition: all 0.3s ease;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
         }
         
         .example-btn {
@@ -88,6 +116,16 @@
         
         .example-btn:active {
             transform: scale(0.98);
+        }
+        
+        /* Voice recording animation */
+        .recording {
+            animation: recording-pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes recording-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
         
         /* Mobile optimizations */
@@ -105,7 +143,7 @@
         /* Loading animation */
         .loader {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #00d4ff;
             border-radius: 50%;
             width: 24px;
             height: 24px;
@@ -159,32 +197,93 @@
         @keyframes fill {
             100% { box-shadow: inset 0px 0px 0px 30px #4ade80; }
         }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .dark-mode-toggle.active {
+            background: #00d4ff;
+        }
+        
+        .dark-mode-toggle::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+        
+        .dark-mode-toggle.active::after {
+            transform: translateX(30px);
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
     <!-- Floating Background Elements -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div class="absolute top-20 left-10 w-72 h-72 bg-cyan-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
         <div class="absolute top-40 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
-        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style="animation-delay: 4s;"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-teal-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style="animation-delay: 4s;"></div>
     </div>
 
     <div class="max-w-7xl mx-auto relative z-10">
         <!-- Header with Logo -->
         <div class="glass-card rounded-2xl p-6 mb-6 animate__animated animate__fadeInDown">
             <div class="flex items-center justify-between flex-wrap gap-4">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center floating">
-                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                        </svg>
-                    </div>
+                <div class="flex items-center space-x-4">
+                    <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/d70640e3-33b8-4c1f-881e-e47849dc14a8/2025-12-10T11-40-43-636Z-0b42431d-chat-image-1765366843617-0.jpg" alt="EdgesOf Solutions" class="h-12 floating">
                     <div>
                         <h1 class="text-2xl md:text-3xl font-bold gradient-text">MediScript AI</h1>
                         <p class="text-sm text-gray-600">Powered by GPT-4 Turbo</p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-2">
+                <div class="flex items-center space-x-3 flex-wrap gap-2">
+                    <button onclick="toggleDarkMode()" class="flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 transition">
+                        <span id="darkModeIcon">🌙</span>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Dark</span>
+                    </button>
+                    <select id="languageSelect" onchange="changeLanguage()" class="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <option value="en">🇬🇧 English</option>
+                        <option value="hi">🇮🇳 हिंदी</option>
+                        <option value="ta">🇮🇳 தமிழ்</option>
+                    </select>
                     <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold flex items-center">
                         <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                         DEMO MODE
@@ -196,19 +295,49 @@
             </div>
         </div>
 
+        <!-- Quick Actions Bar -->
+        <div class="glass-card rounded-2xl p-4 mb-6 animate__animated animate__fadeInUp">
+            <div class="flex items-center justify-between flex-wrap gap-3">
+                <div class="flex items-center space-x-3 flex-wrap gap-2">
+                    <button onclick="openTemplates()" class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span class="text-sm font-medium">Templates</span>
+                    </button>
+                    <button onclick="openHistory()" class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg hover:shadow-lg transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-sm font-medium">History</span>
+                        <span class="bg-white text-blue-600 px-2 py-0.5 rounded-full text-xs font-bold" id="historyCount">0</span>
+                    </button>
+                    <button onclick="openAnalytics()" class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg hover:shadow-lg transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <span class="text-sm font-medium">Analytics</span>
+                    </button>
+                </div>
+                <div class="text-sm text-gray-600">
+                    <span class="font-semibold" id="totalPrescriptions">0</span> prescriptions generated today
+                </div>
+            </div>
+        </div>
+
         <!-- Hero Section -->
         <div class="glass-card rounded-2xl p-8 md:p-12 mb-6 text-center animate__animated animate__fadeInUp">
             <div class="max-w-3xl mx-auto">
                 <div class="inline-block mb-4">
-                    <span class="px-4 py-2 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 rounded-full text-sm font-semibold">
+                    <span class="px-4 py-2 bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 rounded-full text-sm font-semibold">
                         ✨ India's Most Advanced AI Prescription Platform
                     </span>
                 </div>
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4" id="heroTitle">
                     Generate Prescriptions in
                     <span class="gradient-text"> 3 Seconds</span>
                 </h2>
-                <p class="text-lg md:text-xl text-gray-600 mb-6">
+                <p class="text-lg md:text-xl text-gray-600 mb-6" id="heroSubtitle">
                     AI-powered prescription generation with medicines, dosages, precautions, and lifestyle recommendations. Trusted by 1,000+ doctors.
                 </p>
                 <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
@@ -237,7 +366,7 @@
         <!-- Quick Examples -->
         <div class="glass-card rounded-2xl p-6 mb-6 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-xl font-bold text-gray-900">🚀 Quick Start Examples</h3>
+                <h3 class="text-xl font-bold text-gray-900" id="quickStartTitle">🚀 Quick Start Examples</h3>
                 <span class="text-sm text-gray-500">Click to auto-fill</span>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -271,16 +400,16 @@
 
         <!-- Main Form -->
         <div class="glass-card rounded-2xl p-6 md:p-8 mb-6 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-            <h3 class="text-2xl font-bold text-gray-900 mb-6">📋 Patient Information</h3>
+            <h3 class="text-2xl font-bold text-gray-900 mb-6" id="patientInfoTitle">📋 Patient Information</h3>
             
             <div class="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Patient Age *</label>
-                    <input type="number" id="patientAge" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-100 focus:border-purple-500 transition text-lg" placeholder="Enter age">
+                    <input type="number" id="patientAge" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500 transition text-lg" placeholder="Enter age">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Gender *</label>
-                    <select id="patientGender" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-100 focus:border-purple-500 transition text-lg">
+                    <select id="patientGender" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500 transition text-lg">
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -289,14 +418,22 @@
             </div>
 
             <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Symptoms *</label>
-                <textarea id="symptoms" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-100 focus:border-purple-500 transition text-lg" rows="4" placeholder="Describe patient symptoms in detail...&#10;e.g., Fever of 101°F for 3 days, headache, body pain"></textarea>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-sm font-semibold text-gray-700">Symptoms *</label>
+                    <button onclick="startVoiceInput('symptoms')" id="voiceBtn" class="flex items-center space-x-2 px-3 py-1 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-lg text-sm hover:shadow-lg transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                        </svg>
+                        <span id="voiceBtnText">Voice Input</span>
+                    </button>
+                </div>
+                <textarea id="symptoms" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500 transition text-lg" rows="4" placeholder="Describe patient symptoms in detail...&#10;e.g., Fever of 101°F for 3 days, headache, body pain"></textarea>
                 <p class="text-xs text-gray-500 mt-2">💡 Be specific for better AI recommendations</p>
             </div>
 
             <div class="mb-6">
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Diagnosis *</label>
-                <textarea id="diagnosis" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-100 focus:border-purple-500 transition text-lg" rows="2" placeholder="Enter your diagnosis...&#10;e.g., Viral fever"></textarea>
+                <textarea id="diagnosis" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-cyan-100 focus:border-cyan-500 transition text-lg" rows="2" placeholder="Enter your diagnosis...&#10;e.g., Viral fever"></textarea>
             </div>
 
             <div id="error" class="hidden mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start space-x-3 animate__animated animate__shakeX">
@@ -328,7 +465,319 @@
         </div>
     </div>
 
+    <!-- Templates Modal -->
+    <div id="templatesModal" class="modal">
+        <div class="modal-content glass-card rounded-2xl p-8 max-w-4xl w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">📋 Prescription Templates</h3>
+                <button onclick="closeModal('templatesModal')" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4" id="templatesList">
+                <!-- Templates will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content glass-card rounded-2xl p-8 max-w-4xl w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">🕐 Prescription History</h3>
+                <button onclick="closeModal('historyModal')" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4" id="historyList">
+                <!-- History will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div id="analyticsModal" class="modal">
+        <div class="modal-content glass-card rounded-2xl p-8 max-w-4xl w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">📊 Analytics Dashboard</h3>
+                <button onclick="closeModal('analyticsModal')" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border-2 border-blue-200">
+                    <div class="text-3xl mb-2">📝</div>
+                    <div class="text-3xl font-bold text-gray-900" id="totalRxCount">0</div>
+                    <div class="text-sm text-gray-600">Total Prescriptions</div>
+                </div>
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
+                    <div class="text-3xl mb-2">⏱️</div>
+                    <div class="text-3xl font-bold text-gray-900">2.8s</div>
+                    <div class="text-sm text-gray-600">Avg. Generation Time</div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl border-2 border-purple-200">
+                    <div class="text-3xl mb-2">💊</div>
+                    <div class="text-3xl font-bold text-gray-900" id="totalMedsCount">0</div>
+                    <div class="text-sm text-gray-600">Medicines Prescribed</div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-br from-yellow-50 to-amber-50 p-6 rounded-xl border-2 border-yellow-200">
+                <h4 class="font-bold text-gray-900 mb-4">📈 Most Common Diagnoses</h4>
+                <div class="space-y-2" id="commonDiagnoses">
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Translations
+        const translations = {
+            en: {
+                heroTitle: 'Generate Prescriptions in 3 Seconds',
+                heroSubtitle: 'AI-powered prescription generation with medicines, dosages, precautions, and lifestyle recommendations. Trusted by 1,000+ doctors.',
+                quickStartTitle: '🚀 Quick Start Examples',
+                patientInfoTitle: '📋 Patient Information'
+            },
+            hi: {
+                heroTitle: '3 सेकंड में प्रिस्क्रिप्शन बनाएं',
+                heroSubtitle: 'AI-संचालित प्रिस्क्रिप्शन जनरेशन दवाओं, खुराक, सावधानियों और जीवनशैली की सिफारिशों के साथ। 1,000+ डॉक्टरों द्वारा विश्वसनीय।',
+                quickStartTitle: '🚀 त्वरित प्रारंभ उदाहरण',
+                patientInfoTitle: '📋 रोगी की जानकारी'
+            },
+            ta: {
+                heroTitle: '3 விநாடிகளில் மருந்துச் சீட்டு உருவாக்கவும்',
+                heroSubtitle: 'AI-இயக்கப்படும் மருந்துச் சீட்டு உருவாக்கம் மருந்துகள், அளவுகள், முன்னெச்சரிக்கைகள் மற்றும் வாழ்க்கை முறை பரிந்துரைகளுடன். 1,000+ மருத்துவர்களால் நம்பப்படுகிறது.',
+                quickStartTitle: '🚀 விரைவு தொடக்க எடுத்துக்காட்டுகள்',
+                patientInfoTitle: '📋 நோயாளி தகவல்'
+            }
+        };
+
+        // State management
+        let prescriptionHistory = JSON.parse(localStorage.getItem('prescriptionHistory') || '[]');
+        let templates = JSON.parse(localStorage.getItem('templates') || '[]');
+        let analytics = JSON.parse(localStorage.getItem('analytics') || '{"total": 0, "medicines": 0, "diagnoses": {}}');
+        let isRecording = false;
+        let recognition = null;
+
+        // Initialize
+        updateHistoryCount();
+        updateAnalytics();
+
+        // Dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('darkModeIcon');
+            icon.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            toggleDarkMode();
+        }
+
+        // Language change
+        function changeLanguage() {
+            const lang = document.getElementById('languageSelect').value;
+            const t = translations[lang];
+            document.getElementById('heroTitle').innerHTML = t.heroTitle.replace('3 Seconds', '<span class="gradient-text">3 Seconds</span>').replace('3 सेकंड', '<span class="gradient-text">3 सेकंड</span>').replace('3 விநாடிகளில்', '<span class="gradient-text">3 விநாடிகளில்</span>');
+            document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
+            document.getElementById('quickStartTitle').textContent = t.quickStartTitle;
+            document.getElementById('patientInfoTitle').textContent = t.patientInfoTitle;
+        }
+
+        // Voice input
+        function startVoiceInput(fieldId) {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Voice input is not supported in your browser. Please use Chrome.');
+                return;
+            }
+
+            if (isRecording) {
+                stopVoiceInput();
+                return;
+            }
+
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = document.getElementById('languageSelect').value === 'hi' ? 'hi-IN' : 
+                              document.getElementById('languageSelect').value === 'ta' ? 'ta-IN' : 'en-US';
+
+            const voiceBtn = document.getElementById('voiceBtn');
+            const voiceBtnText = document.getElementById('voiceBtnText');
+            
+            recognition.onstart = function() {
+                isRecording = true;
+                voiceBtn.classList.add('recording');
+                voiceBtnText.textContent = 'Recording...';
+            };
+
+            recognition.onresult = function(event) {
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+
+                document.getElementById(fieldId).value = finalTranscript || interimTranscript;
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                stopVoiceInput();
+            };
+
+            recognition.start();
+        }
+
+        function stopVoiceInput() {
+            if (recognition) {
+                recognition.stop();
+                isRecording = false;
+                const voiceBtn = document.getElementById('voiceBtn');
+                const voiceBtnText = document.getElementById('voiceBtnText');
+                voiceBtn.classList.remove('recording');
+                voiceBtnText.textContent = 'Voice Input';
+            }
+        }
+
+        // Modal functions
+        function openTemplates() {
+            const modal = document.getElementById('templatesModal');
+            const list = document.getElementById('templatesList');
+            
+            if (templates.length === 0) {
+                list.innerHTML = '<p class="text-gray-600 text-center col-span-2">No templates saved yet. Generate a prescription and save it as a template!</p>';
+            } else {
+                list.innerHTML = templates.map((t, i) => `
+                    <div class="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border-2 border-blue-200 cursor-pointer hover:shadow-lg transition" onclick="loadTemplate(${i})">
+                        <h4 class="font-bold text-gray-900 mb-2">${t.name}</h4>
+                        <p class="text-sm text-gray-600">${t.diagnosis}</p>
+                        <p class="text-xs text-gray-500 mt-2">${t.medicines.length} medicines</p>
+                    </div>
+                `).join('');
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function openHistory() {
+            const modal = document.getElementById('historyModal');
+            const list = document.getElementById('historyList');
+            
+            if (prescriptionHistory.length === 0) {
+                list.innerHTML = '<p class="text-gray-600 text-center">No prescription history yet.</p>';
+            } else {
+                list.innerHTML = prescriptionHistory.slice().reverse().map((h, i) => `
+                    <div class="p-4 bg-white rounded-xl border-2 border-gray-200 hover:shadow-lg transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-bold text-gray-900">${h.diagnosis}</h4>
+                            <span class="text-xs text-gray-500">${new Date(h.timestamp).toLocaleString()}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">${h.symptoms.substring(0, 100)}...</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-gray-500">${h.medicines.length} medicines prescribed</span>
+                            <button onclick="loadFromHistory(${prescriptionHistory.length - 1 - i})" class="px-3 py-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg text-xs hover:shadow-lg transition">
+                                Load
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function openAnalytics() {
+            const modal = document.getElementById('analyticsModal');
+            document.getElementById('totalRxCount').textContent = analytics.total;
+            document.getElementById('totalMedsCount').textContent = analytics.medicines;
+            
+            const diagnosesDiv = document.getElementById('commonDiagnoses');
+            const sortedDiagnoses = Object.entries(analytics.diagnoses).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            
+            if (sortedDiagnoses.length === 0) {
+                diagnosesDiv.innerHTML = '<p class="text-gray-600">No data yet</p>';
+            } else {
+                diagnosesDiv.innerHTML = sortedDiagnoses.map(([diagnosis, count]) => `
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-700">${diagnosis}</span>
+                        <span class="px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm font-bold">${count}</span>
+                    </div>
+                `).join('');
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function loadTemplate(index) {
+            const template = templates[index];
+            document.getElementById('symptoms').value = template.symptoms;
+            document.getElementById('diagnosis').value = template.diagnosis;
+            document.getElementById('patientAge').value = template.age;
+            document.getElementById('patientGender').value = template.gender;
+            closeModal('templatesModal');
+            document.getElementById('symptoms').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function loadFromHistory(index) {
+            const item = prescriptionHistory[index];
+            document.getElementById('symptoms').value = item.symptoms;
+            document.getElementById('diagnosis').value = item.diagnosis;
+            document.getElementById('patientAge').value = item.age;
+            document.getElementById('patientGender').value = item.gender;
+            closeModal('historyModal');
+            document.getElementById('symptoms').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function saveAsTemplate() {
+            const name = prompt('Enter template name:');
+            if (!name) return;
+            
+            const template = {
+                name,
+                symptoms: document.getElementById('symptoms').value,
+                diagnosis: document.getElementById('diagnosis').value,
+                age: document.getElementById('patientAge').value,
+                gender: document.getElementById('patientGender').value,
+                medicines: currentPrescription.medicines
+            };
+            
+            templates.push(template);
+            localStorage.setItem('templates', JSON.stringify(templates));
+            alert('Template saved successfully!');
+        }
+
+        function updateHistoryCount() {
+            document.getElementById('historyCount').textContent = prescriptionHistory.length;
+            document.getElementById('totalPrescriptions').textContent = prescriptionHistory.filter(h => 
+                new Date(h.timestamp).toDateString() === new Date().toDateString()
+            ).length;
+        }
+
+        function updateAnalytics() {
+            analytics = JSON.parse(localStorage.getItem('analytics') || '{"total": 0, "medicines": 0, "diagnoses": {}}');
+        }
+
+        let currentPrescription = null;
+
         const mockPrescriptions = {
             'viral fever': {
                 medicines: [
@@ -478,7 +927,6 @@
             document.getElementById('patientAge').value = example.age;
             document.getElementById('patientGender').value = example.gender;
             
-            // Smooth scroll to form
             document.getElementById('symptoms').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
@@ -496,7 +944,6 @@
             hideError();
             showLoading();
 
-            // Simulate AI processing with realistic delay
             await new Promise(resolve => setTimeout(resolve, 2500));
 
             const normalizedDiagnosis = diagnosis.toLowerCase().trim();
@@ -512,6 +959,29 @@
             if (!prescription) {
                 prescription = mockPrescriptions['viral fever'];
             }
+
+            currentPrescription = prescription;
+
+            // Save to history
+            const historyItem = {
+                symptoms,
+                diagnosis,
+                age,
+                gender,
+                medicines: prescription.medicines,
+                timestamp: new Date().toISOString()
+            };
+            prescriptionHistory.push(historyItem);
+            localStorage.setItem('prescriptionHistory', JSON.stringify(prescriptionHistory));
+
+            // Update analytics
+            analytics.total++;
+            analytics.medicines += prescription.medicines.length;
+            analytics.diagnoses[diagnosis] = (analytics.diagnoses[diagnosis] || 0) + 1;
+            localStorage.setItem('analytics', JSON.stringify(analytics));
+
+            updateHistoryCount();
+            updateAnalytics();
 
             displayPrescription(prescription);
         }
@@ -531,7 +1001,6 @@
 
             const html = `
                 <div class="glass-card rounded-2xl p-6 md:p-8 space-y-6 animate__animated animate__fadeInUp">
-                    <!-- Success Header -->
                     <div class="text-center pb-6 border-b-2 border-gray-100">
                         <svg class="checkmark mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
                             <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
@@ -545,7 +1014,6 @@
                         </div>
                     </div>
 
-                    <!-- Medicines Section -->
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <h4 class="text-2xl font-bold text-gray-900 flex items-center">
@@ -555,40 +1023,40 @@
                         </div>
                         <div class="space-y-4">
                             ${prescription.medicines.map((med, index) => `
-                                <div class="medicine-card bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-purple-200">
+                                <div class="medicine-card bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-cyan-200">
                                     <div class="flex justify-between items-start mb-3">
                                         <div class="flex-1">
                                             <div class="flex items-center gap-2 mb-1">
-                                                <span class="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 text-white rounded-lg flex items-center justify-center font-bold text-sm">${index + 1}</span>
+                                                <span class="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-500 text-white rounded-lg flex items-center justify-center font-bold text-sm">${index + 1}</span>
                                                 <h5 class="text-lg font-bold text-gray-900">${med.name}</h5>
                                             </div>
                                             <p class="text-sm text-gray-600 ml-10">${med.brand}</p>
                                         </div>
-                                        <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 text-purple-700 rounded-full text-sm font-bold border-2 border-purple-200">${med.dosage}</span>
+                                        <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 text-cyan-700 rounded-full text-sm font-bold border-2 border-cyan-200">${med.dosage}</span>
                                     </div>
                                     <div class="grid md:grid-cols-3 gap-3 mb-3 ml-10">
                                         <div class="flex items-center text-sm">
-                                            <svg class="w-4 h-4 text-purple-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-cyan-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                                             </svg>
                                             <span class="text-gray-600"><strong>Frequency:</strong> ${med.frequency}</span>
                                         </div>
                                         <div class="flex items-center text-sm">
-                                            <svg class="w-4 h-4 text-purple-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-cyan-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                                             </svg>
                                             <span class="text-gray-600"><strong>Duration:</strong> ${med.duration}</span>
                                         </div>
                                         <div class="flex items-center text-sm">
-                                            <svg class="w-4 h-4 text-purple-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-cyan-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
                                             </svg>
                                             <span class="text-gray-600"><strong>Timing:</strong> ${med.timing}</span>
                                         </div>
                                     </div>
-                                    <div class="ml-10 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-purple-100">
+                                    <div class="ml-10 p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-cyan-100">
                                         <p class="text-sm text-gray-700">
-                                            <svg class="w-4 h-4 inline text-purple-600 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 inline text-cyan-600 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                                             </svg>
                                             <strong>Instructions:</strong> ${med.instructions}
@@ -599,7 +1067,6 @@
                         </div>
                     </div>
 
-                    <!-- Precautions -->
                     ${prescription.precautions.length > 0 ? `
                         <div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border-2 border-blue-200">
                             <h4 class="text-xl font-bold text-gray-900 mb-3 flex items-center">
@@ -618,7 +1085,6 @@
                         </div>
                     ` : ''}
 
-                    <!-- Warnings -->
                     ${prescription.warnings.length > 0 ? `
                         <div class="bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-xl border-2 border-red-200">
                             <h4 class="text-xl font-bold text-red-900 mb-3 flex items-center">
@@ -637,7 +1103,6 @@
                         </div>
                     ` : ''}
 
-                    <!-- Follow-up -->
                     ${prescription.followUp ? `
                         <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl border-2 border-purple-200">
                             <h4 class="text-xl font-bold text-gray-900 mb-3 flex items-center">
@@ -652,7 +1117,6 @@
                         </div>
                     ` : ''}
 
-                    <!-- Lifestyle -->
                     ${prescription.lifestyle.length > 0 ? `
                         <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-200">
                             <h4 class="text-xl font-bold text-gray-900 mb-3 flex items-center">
@@ -671,25 +1135,30 @@
                         </div>
                     ` : ''}
 
-                    <!-- Action Buttons -->
-                    <div class="grid md:grid-cols-3 gap-4 pt-6 border-t-2 border-gray-100">
+                    <div class="grid md:grid-cols-4 gap-4 pt-6 border-t-2 border-gray-100">
                         <button onclick="window.print()" class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold hover:shadow-lg transition transform hover:-translate-y-1">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                             </svg>
-                            Print / Save PDF
+                            Print
                         </button>
                         <button onclick="shareWhatsApp()" class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-bold hover:shadow-lg transition transform hover:-translate-y-1">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
                             </svg>
-                            Share WhatsApp
+                            Share
                         </button>
-                        <button onclick="location.reload()" class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold hover:shadow-lg transition transform hover:-translate-y-1">
+                        <button onclick="saveAsTemplate()" class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold hover:shadow-lg transition transform hover:-translate-y-1">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                            </svg>
+                            Save
+                        </button>
+                        <button onclick="location.reload()" class="flex items-center justify-center px-6 py-4 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-xl font-bold hover:shadow-lg transition transform hover:-translate-y-1">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                             </svg>
-                            New Prescription
+                            New
                         </button>
                     </div>
                 </div>
@@ -716,15 +1185,12 @@
             window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
         }
 
-        // Add smooth scroll behavior
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
     </script>
 </body>
 </html>
