@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - MediScript</title>
+    <script src="auth-system.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .user-details h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .user-details p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            font-size: 32px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: #00ff88;
+            margin-top: 5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .action-btn {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            border-color: #00d4ff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .action-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .badge-new {
+            background: #ff4444;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+
+        /* Appointments List */
+        .appointment-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .appointment-info h4 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .appointment-info p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .appointment-time {
+            font-size: 14px;
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        /* Pending Tasks */
+        .task-item {
+            padding: 12px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .task-item h4 {
+            font-size: 14px;
+            color: #856404;
+            margin-bottom: 5px;
+        }
+
+        .task-item p {
+            font-size: 12px;
+            color: #856404;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="user-info">
+                <div class="user-avatar">👨‍⚕️</div>
+                <div class="user-details">
+                    <h2 id="userName">Loading...</h2>
+                    <p id="userRole">Doctor</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">Full Platform</button>
+                <button class="btn btn-danger" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon">📅</div>
+                </div>
+                <div class="stat-value">12</div>
+                <div class="stat-label">Today's Appointments</div>
+                <div class="stat-change">↑ 3 from yesterday</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon">👥</div>
+                </div>
+                <div class="stat-value">156</div>
+                <div class="stat-label">Total Patients</div>
+                <div class="stat-change">↑ 8 this week</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon">💊</div>
+                </div>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Pending Prescriptions</div>
+                <div class="stat-change">Needs attention</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon">🔬</div>
+                </div>
+                <div class="stat-value">5</div>
+                <div class="stat-label">Lab Reports Ready</div>
+                <div class="stat-change">Review required</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="left-column">
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-title">⚡ Quick Actions</div>
+                    <div class="quick-actions">
+                        <div class="action-btn" onclick="alert('Opening AI Diagnosis...')">
+                            <div class="action-icon">🤖</div>
+                            <div class="action-label">AI Diagnosis <span class="badge-new">NEW</span></div>
+                        </div>
+                        <div class="action-btn" onclick="alert('Creating new prescription...')">
+                            <div class="action-icon">💊</div>
+                            <div class="action-label">New Prescription</div>
+                        </div>
+                        <div class="action-btn" onclick="alert('Ordering lab tests...')">
+                            <div class="action-icon">🔬</div>
+                            <div class="action-label">Lab Orders <span class="badge-new">NEW</span></div>
+                        </div>
+                        <div class="action-btn" onclick="alert('Starting video call...')">
+                            <div class="action-icon">📹</div>
+                            <div class="action-label">Video Consultation <span class="badge-new">NEW</span></div>
+                        </div>
+                        <div class="action-btn" onclick="alert('Viewing patients...')">
+                            <div class="action-icon">👥</div>
+                            <div class="action-label">My Patients</div>
+                        </div>
+                        <div class="action-btn" onclick="alert('Uploading documents...')">
+                            <div class="action-icon">📄</div>
+                            <div class="action-label">Documents <span class="badge-new">NEW</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Appointments -->
+                <div class="card">
+                    <div class="card-title">📅 Today's Appointments</div>
+                    <div class="appointment-item">
+                        <div class="appointment-info">
+                            <h4>John Doe</h4>
+                            <p>Regular Checkup • Patient ID: P12345</p>
+                        </div>
+                        <div class="appointment-time">10:00 AM</div>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-info">
+                            <h4>Sarah Smith</h4>
+                            <p>Follow-up Visit • Patient ID: P12346</p>
+                        </div>
+                        <div class="appointment-time">11:30 AM</div>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-info">
+                            <h4>Michael Johnson</h4>
+                            <p>New Patient Consultation • Patient ID: P12347</p>
+                        </div>
+                        <div class="appointment-time">2:00 PM</div>
+                    </div>
+                    <div class="appointment-item">
+                        <div class="appointment-info">
+                            <h4>Emily Davis</h4>
+                            <p>Lab Report Review • Patient ID: P12348</p>
+                        </div>
+                        <div class="appointment-time">3:30 PM</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <!-- Pending Tasks -->
+                <div class="card">
+                    <div class="card-title">⚠️ Pending Tasks</div>
+                    <div class="task-item">
+                        <h4>Review Lab Reports</h4>
+                        <p>5 lab reports awaiting your review</p>
+                    </div>
+                    <div class="task-item">
+                        <h4>Complete Prescriptions</h4>
+                        <p>3 prescriptions need to be finalized</p>
+                    </div>
+                    <div class="task-item">
+                        <h4>Follow-up Calls</h4>
+                        <p>2 patients need follow-up calls</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="card-title">📊 Recent Activity</div>
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                        <p style="font-size: 13px; color: #666; margin-bottom: 5px;">Prescription created for John Doe</p>
+                        <p style="font-size: 11px; color: #999;">2 hours ago</p>
+                    </div>
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                        <p style="font-size: 13px; color: #666; margin-bottom: 5px;">Lab test ordered for Sarah Smith</p>
+                        <p style="font-size: 11px; color: #999;">4 hours ago</p>
+                    </div>
+                    <div style="padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                        <p style="font-size: 13px; color: #666; margin-bottom: 5px;">Video consultation completed</p>
+                        <p style="font-size: 11px; color: #999;">Yesterday</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        window.addEventListener('load', function() {
+            const session = authSystem.loadSession();
+            
+            if (!session) {
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            // Check if user is doctor
+            if (session.role !== 'doctor') {
+                alert('Access denied. This dashboard is for doctors only.');
+                window.location.href = 'dashboard-router.html';
+                return;
+            }
+
+            // Display user info
+            document.getElementById('userName').textContent = session.name;
+            if (session.specialization) {
+                document.getElementById('userRole').textContent = session.specialization;
+            }
+        });
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                authSystem.logout();
+                window.location.href = 'auth.html';
+            }
+        }
+    </script>
+</body>
+</html>

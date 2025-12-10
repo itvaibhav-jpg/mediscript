@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Dashboard...</title>
+    <script src="auth-system.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .loader-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="loader"></div>
+        <h2>Loading Your Dashboard...</h2>
+        <p id="statusMessage">Please wait...</p>
+    </div>
+
+    <script>
+        // Check authentication and redirect to appropriate dashboard
+        window.addEventListener('load', function() {
+            const session = authSystem.loadSession();
+            
+            if (!session) {
+                // Not logged in, redirect to login
+                document.getElementById('statusMessage').textContent = 'Not authenticated. Redirecting to login...';
+                setTimeout(() => {
+                    window.location.href = 'auth.html';
+                }, 1000);
+                return;
+            }
+
+            // Get user role
+            const role = session.role;
+            document.getElementById('statusMessage').textContent = `Welcome, ${session.name}! Loading ${role} dashboard...`;
+
+            // Redirect based on role
+            setTimeout(() => {
+                switch(role) {
+                    case 'doctor':
+                        window.location.href = 'doctor-dashboard.html';
+                        break;
+                    case 'patient':
+                        window.location.href = 'patient-dashboard.html';
+                        break;
+                    case 'receptionist':
+                        window.location.href = 'receptionist-dashboard.html';
+                        break;
+                    case 'admin':
+                        window.location.href = 'admin-dashboard.html';
+                        break;
+                    case 'superadmin':
+                        window.location.href = 'superadmin-dashboard.html';
+                        break;
+                    default:
+                        // Fallback to main index
+                        window.location.href = 'index.html';
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

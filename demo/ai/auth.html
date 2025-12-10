@@ -373,64 +373,8 @@
         </div>
     </div>
 
+    <script src="auth-system.js"></script>
     <script>
-        // User database with roles and permissions
-        const users = [
-            {
-                id: 'U001',
-                username: 'dr.sharma',
-                password: 'doctor123',
-                role: 'doctor',
-                name: 'Dr. Rajesh Sharma',
-                specialization: 'Cardiologist',
-                email: 'dr.sharma@mediscript.com',
-                phone: '+91-9876543210',
-                permissions: ['view_patients', 'create_prescription', 'ai_diagnosis', 'lab_orders', 'video_consultation', 'view_analytics']
-            },
-            {
-                id: 'U002',
-                username: 'patient.john',
-                password: 'patient123',
-                role: 'patient',
-                name: 'John Doe',
-                patientId: 'P12345',
-                email: 'john@email.com',
-                phone: '+91-9876543211',
-                dob: '1990-05-15',
-                permissions: ['view_own_records', 'book_appointment', 'upload_documents', 'view_prescriptions', 'video_consultation']
-            },
-            {
-                id: 'U003',
-                username: 'reception',
-                password: 'reception123',
-                role: 'receptionist',
-                name: 'Priya Patel',
-                email: 'reception@mediscript.com',
-                phone: '+91-9876543212',
-                permissions: ['register_patient', 'schedule_appointment', 'checkin', 'view_appointments', 'send_reminders']
-            },
-            {
-                id: 'U004',
-                username: 'admin',
-                password: 'admin123',
-                role: 'admin',
-                name: 'System Administrator',
-                email: 'admin@mediscript.com',
-                phone: '+91-9876543213',
-                permissions: ['manage_users', 'system_settings', 'view_all_analytics', 'manage_billing', 'backup_restore']
-            },
-            {
-                id: 'U005',
-                username: 'superadmin',
-                password: 'super@123',
-                role: 'superadmin',
-                name: 'Super Administrator',
-                email: 'superadmin@mediscript.com',
-                phone: '+91-9876543214',
-                permissions: ['*'] // All permissions
-            }
-        ];
-
         let selectedRole = null;
 
         // Role selection
@@ -454,43 +398,31 @@
         });
 
         function login(username, password, role, rememberMe) {
-            // Find user
-            const user = users.find(u => u.username === username && u.password === password);
+            const result = authSystem.login(username, password, role);
 
-            if (!user) {
-                showError('Invalid username or password');
+            if (!result.success) {
+                showError(result.message);
                 return;
             }
 
-            // Check role match if role is selected
-            if (role && user.role !== role) {
-                showError(`This account is not a ${role} account. Please select the correct role.`);
-                return;
-            }
-
-            // Successful login
-            showSuccess(`Welcome, ${user.name}!`);
-
-            // Store user session
-            const sessionData = {
-                userId: user.id,
-                username: user.username,
-                role: user.role,
-                name: user.name,
-                email: user.email,
-                permissions: user.permissions,
-                loginTime: new Date().toISOString()
-            };
-
+            // Store session with remember me option
             if (rememberMe) {
-                localStorage.setItem('mediscript_session', JSON.stringify(sessionData));
+                localStorage.setItem('mediscript_session', JSON.stringify({
+                    ...result.user,
+                    loginTime: new Date().toISOString()
+                }));
             } else {
-                sessionStorage.setItem('mediscript_session', JSON.stringify(sessionData));
+                sessionStorage.setItem('mediscript_session', JSON.stringify({
+                    ...result.user,
+                    loginTime: new Date().toISOString()
+                }));
             }
 
-            // Redirect to appropriate dashboard after 1 second
+            showSuccess(result.message);
+
+            // Redirect to dashboard router after 1 second
             setTimeout(() => {
-                window.location.href = `index.html?role=${user.role}`;
+                window.location.href = 'dashboard-router.html';
             }, 1000);
         }
 
@@ -548,7 +480,7 @@
                 const userData = JSON.parse(session);
                 showSuccess(`Welcome back, ${userData.name}!`);
                 setTimeout(() => {
-                    window.location.href = `index.html?role=${userData.role}`;
+                    window.location.href = 'dashboard-router.html';
                 }, 1000);
             }
         });
