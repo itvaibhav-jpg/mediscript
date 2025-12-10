@@ -1,18 +1,12 @@
 {
   "version": 2,
   "name": "mediscript",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "regions": ["bom1"],
   "env": {
     "NEXT_PUBLIC_COMPANY_NAME": "EdgesOf Solutions Pvt. Ltd.",
     "NEXT_PUBLIC_PRODUCT_NAME": "MediScript",
