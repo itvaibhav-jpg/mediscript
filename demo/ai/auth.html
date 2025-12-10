@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediScript - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .brand-name {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .role-selection {
+            margin-bottom: 30px;
+        }
+
+        .role-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .role-card {
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .role-card.active {
+            border-color: #00d4ff;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 153, 204, 0.1));
+        }
+
+        .role-icon {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .role-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .remember-me label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .links a {
+            color: #00d4ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: #0099cc;
+        }
+
+        .demo-credentials {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .demo-credentials h4 {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 12px;
+            color: #856404;
+        }
+
+        .credential-item strong {
+            color: #664d03;
+        }
+
+        .quick-login {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .quick-login-btn {
+            padding: 3px 8px;
+            background: #ffc107;
+            color: #664d03;
+            border: none;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quick-login-btn:hover {
+            background: #ffb300;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">🏥</div>
+            <h1 class="brand-name">MediScript</h1>
+            <p class="tagline">AI-Powered Healthcare Management Platform</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <div class="role-selection">
+            <div class="role-title">Select Your Role</div>
+            <div class="role-grid">
+                <div class="role-card" data-role="doctor">
+                    <div class="role-icon">👨‍⚕️</div>
+                    <div class="role-name">Doctor</div>
+                </div>
+                <div class="role-card" data-role="patient">
+                    <div class="role-icon">🧑‍💼</div>
+                    <div class="role-name">Patient</div>
+                </div>
+                <div class="role-card" data-role="receptionist">
+                    <div class="role-icon">📋</div>
+                    <div class="role-name">Reception</div>
+                </div>
+                <div class="role-card" data-role="admin">
+                    <div class="role-icon">🔧</div>
+                    <div class="role-name">Admin</div>
+                </div>
+                <div class="role-card" data-role="superadmin">
+                    <div class="role-icon">👑</div>
+                    <div class="role-name">Super Admin</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox" id="rememberMe" name="rememberMe">
+                <label for="rememberMe">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
+
+            <div class="links">
+                <a href="#" id="forgotPassword">Forgot Password?</a>
+                <a href="#" id="needHelp">Need Help?</a>
+            </div>
+        </form>
+
+        <div class="demo-credentials">
+            <h4>🎯 Demo Credentials (Click to Auto-Fill)</h4>
+            
+            <div class="credential-item">
+                <span><strong>Doctor:</strong> dr.sharma / doctor123</span>
+                <div class="quick-login">
+                    <button class="quick-login-btn" onclick="quickLogin('dr.sharma', 'doctor123', 'doctor')">Login</button>
+                </div>
+            </div>
+
+            <div class="credential-item">
+                <span><strong>Patient:</strong> patient.john / patient123</span>
+                <div class="quick-login">
+                    <button class="quick-login-btn" onclick="quickLogin('patient.john', 'patient123', 'patient')">Login</button>
+                </div>
+            </div>
+
+            <div class="credential-item">
+                <span><strong>Reception:</strong> reception / reception123</span>
+                <div class="quick-login">
+                    <button class="quick-login-btn" onclick="quickLogin('reception', 'reception123', 'receptionist')">Login</button>
+                </div>
+            </div>
+
+            <div class="credential-item">
+                <span><strong>Admin:</strong> admin / admin123</span>
+                <div class="quick-login">
+                    <button class="quick-login-btn" onclick="quickLogin('admin', 'admin123', 'admin')">Login</button>
+                </div>
+            </div>
+
+            <div class="credential-item">
+                <span><strong>Super Admin:</strong> superadmin / super@123</span>
+                <div class="quick-login">
+                    <button class="quick-login-btn" onclick="quickLogin('superadmin', 'super@123', 'superadmin')">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User database with roles and permissions
+        const users = [
+            {
+                id: 'U001',
+                username: 'dr.sharma',
+                password: 'doctor123',
+                role: 'doctor',
+                name: 'Dr. Rajesh Sharma',
+                specialization: 'Cardiologist',
+                email: 'dr.sharma@mediscript.com',
+                phone: '+91-9876543210',
+                permissions: ['view_patients', 'create_prescription', 'ai_diagnosis', 'lab_orders', 'video_consultation', 'view_analytics']
+            },
+            {
+                id: 'U002',
+                username: 'patient.john',
+                password: 'patient123',
+                role: 'patient',
+                name: 'John Doe',
+                patientId: 'P12345',
+                email: 'john@email.com',
+                phone: '+91-9876543211',
+                dob: '1990-05-15',
+                permissions: ['view_own_records', 'book_appointment', 'upload_documents', 'view_prescriptions', 'video_consultation']
+            },
+            {
+                id: 'U003',
+                username: 'reception',
+                password: 'reception123',
+                role: 'receptionist',
+                name: 'Priya Patel',
+                email: 'reception@mediscript.com',
+                phone: '+91-9876543212',
+                permissions: ['register_patient', 'schedule_appointment', 'checkin', 'view_appointments', 'send_reminders']
+            },
+            {
+                id: 'U004',
+                username: 'admin',
+                password: 'admin123',
+                role: 'admin',
+                name: 'System Administrator',
+                email: 'admin@mediscript.com',
+                phone: '+91-9876543213',
+                permissions: ['manage_users', 'system_settings', 'view_all_analytics', 'manage_billing', 'backup_restore']
+            },
+            {
+                id: 'U005',
+                username: 'superadmin',
+                password: 'super@123',
+                role: 'superadmin',
+                name: 'Super Administrator',
+                email: 'superadmin@mediscript.com',
+                phone: '+91-9876543214',
+                permissions: ['*'] // All permissions
+            }
+        ];
+
+        let selectedRole = null;
+
+        // Role selection
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                selectedRole = this.dataset.role;
+            });
+        });
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            login(username, password, selectedRole, rememberMe);
+        });
+
+        function login(username, password, role, rememberMe) {
+            // Find user
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (!user) {
+                showError('Invalid username or password');
+                return;
+            }
+
+            // Check role match if role is selected
+            if (role && user.role !== role) {
+                showError(`This account is not a ${role} account. Please select the correct role.`);
+                return;
+            }
+
+            // Successful login
+            showSuccess(`Welcome, ${user.name}!`);
+
+            // Store user session
+            const sessionData = {
+                userId: user.id,
+                username: user.username,
+                role: user.role,
+                name: user.name,
+                email: user.email,
+                permissions: user.permissions,
+                loginTime: new Date().toISOString()
+            };
+
+            if (rememberMe) {
+                localStorage.setItem('mediscript_session', JSON.stringify(sessionData));
+            } else {
+                sessionStorage.setItem('mediscript_session', JSON.stringify(sessionData));
+            }
+
+            // Redirect to appropriate dashboard after 1 second
+            setTimeout(() => {
+                window.location.href = `index.html?role=${user.role}`;
+            }, 1000);
+        }
+
+        function quickLogin(username, password, role) {
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+            
+            // Select the role
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('active');
+                if (card.dataset.role === role) {
+                    card.classList.add('active');
+                    selectedRole = role;
+                }
+            });
+
+            // Auto-submit after a brief delay
+            setTimeout(() => {
+                login(username, password, role, false);
+            }, 300);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        // Forgot password
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Password reset functionality will be available soon. Please contact your administrator.');
+        });
+
+        // Need help
+        document.getElementById('needHelp').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('For assistance, please contact:\nEmail: support@mediscript.com\nPhone: +91-1800-123-4567');
+        });
+
+        // Check if already logged in
+        window.addEventListener('load', function() {
+            const session = localStorage.getItem('mediscript_session') || sessionStorage.getItem('mediscript_session');
+            if (session) {
+                const userData = JSON.parse(session);
+                showSuccess(`Welcome back, ${userData.name}!`);
+                setTimeout(() => {
+                    window.location.href = `index.html?role=${userData.role}`;
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
