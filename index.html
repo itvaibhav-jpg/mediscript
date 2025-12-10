@@ -9,11 +9,17 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-b from-blue-50 to-white">
     <!-- Header -->
-    <header class="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+    <header class="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,13 +28,13 @@
                 <span class="text-2xl font-bold text-blue-600">MediScript</span>
             </div>
             <nav class="hidden md:flex space-x-6">
-                <a href="#features" class="text-gray-600 hover:text-blue-600">Features</a>
-                <a href="#pricing" class="text-gray-600 hover:text-blue-600">Pricing</a>
-                <a href="#about" class="text-gray-600 hover:text-blue-600">About</a>
+                <a href="#features" class="text-gray-600 hover:text-blue-600 transition">Features</a>
+                <a href="#demo" class="text-gray-600 hover:text-blue-600 transition">Demo</a>
+                <a href="#about" class="text-gray-600 hover:text-blue-600 transition">About</a>
             </nav>
             <div class="flex space-x-4">
-                <a href="https://github.com/itvaibhav-jpg/mediscript" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">GitHub</a>
-                <a href="#demo" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Get Started</a>
+                <a href="https://github.com/itvaibhav-jpg/mediscript" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition">GitHub</a>
+                <a href="#demo" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition shadow-md">Try Demo</a>
             </div>
         </div>
     </header>
@@ -36,24 +42,56 @@
     <!-- Hero Section -->
     <section class="container mx-auto px-4 py-20 text-center">
         <div class="max-w-4xl mx-auto">
+            <div class="inline-block mb-4 px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                🚀 AI-Powered Healthcare Platform
+            </div>
             <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                Prescribe with <span class="text-blue-600">Intelligence</span>
+                Prescribe with <span class="gradient-text">Intelligence</span>
             </h1>
             <p class="text-xl text-gray-600 mb-8">
-                India's most advanced AI-powered healthcare management platform.
-                Streamline your clinic operations with intelligent automation.
+                India's most advanced AI-powered prescription platform using GPT-4.
+                Generate intelligent prescriptions in seconds, not minutes.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="https://github.com/itvaibhav-jpg/mediscript" class="px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-lg font-medium">
-                    View on GitHub
+                <a href="#demo" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-xl transition text-lg font-medium">
+                    🤖 Try AI Demo
                 </a>
-                <a href="#demo" class="px-8 py-3 border border-gray-300 rounded-md hover:bg-gray-50 text-lg font-medium">
-                    Watch Demo
+                <a href="https://github.com/itvaibhav-jpg/mediscript" class="px-8 py-4 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition text-lg font-medium">
+                    ⭐ Star on GitHub
                 </a>
             </div>
-            <p class="text-sm text-gray-500 mt-4">
-                Open Source • Free to Use • Built with Next.js & Supabase
+            <p class="text-sm text-gray-500 mt-6">
+                ✅ Open Source • ✅ Free to Use • ✅ GPT-4 Powered
             </p>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="bg-gradient-to-r from-purple-50 to-blue-50 py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">🎬 Live AI Demo</h2>
+            <p class="text-xl text-gray-600 mb-8">
+                Experience AI-powered prescription generation right now!
+            </p>
+            <div class="bg-white rounded-xl shadow-2xl p-8 max-w-2xl mx-auto">
+                <div class="mb-6">
+                    <div class="flex items-center justify-center space-x-2 mb-4">
+                        <svg class="h-8 w-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold">AI Prescription Generator</h3>
+                    </div>
+                    <p class="text-gray-600">
+                        Enter symptoms and diagnosis, get complete prescription with medicines, dosages, and precautions
+                    </p>
+                </div>
+                <a href="demo/ai/index.html" class="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:shadow-xl transition text-lg font-medium">
+                    🚀 Launch AI Demo
+                </a>
+                <p class="text-sm text-gray-500 mt-4">
+                    No signup required • Works instantly • Realistic AI responses
+                </p>
+            </div>
         </div>
     </section>
 
@@ -64,103 +102,75 @@
                 Everything you need to run your clinic
             </h2>
             <p class="text-xl text-gray-600">
-                Powerful features designed for Indian healthcare providers
+                Powerful AI features designed for Indian healthcare providers
             </p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="p-6 bg-white rounded-lg shadow-sm border">
-                <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="p-6 bg-white rounded-lg shadow-sm border hover:shadow-lg transition">
+                <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-2">AI Prescriptions</h3>
-                <p class="text-gray-600">Generate intelligent prescriptions with AI assistance</p>
+                <h3 class="text-xl font-semibold mb-2">🤖 AI Prescriptions</h3>
+                <p class="text-gray-600">GPT-4 powered intelligent prescription generation with medicines, dosages, and precautions</p>
             </div>
 
-            <div class="p-6 bg-white rounded-lg shadow-sm border">
-                <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            <div class="p-6 bg-white rounded-lg shadow-sm border hover:shadow-lg transition">
+                <div class="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-2">Smart Scheduling</h3>
-                <p class="text-gray-600">Automated appointment management and reminders</p>
+                <h3 class="text-xl font-semibold mb-2">🎤 Voice-to-Prescription</h3>
+                <p class="text-gray-600">Speak symptoms, get prescriptions. AI transcribes and generates automatically</p>
             </div>
 
-            <div class="p-6 bg-white rounded-lg shadow-sm border">
-                <div class="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                    <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Digital Records</h3>
-                <p class="text-gray-600">Complete EMR/EHR with patient history tracking</p>
-            </div>
-
-            <div class="p-6 bg-white rounded-lg shadow-sm border">
+            <div class="p-6 bg-white rounded-lg shadow-sm border hover:shadow-lg transition">
                 <div class="h-12 w-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
                     <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">⚠️ Drug Interaction Checker</h3>
+                <p class="text-gray-600">Real-time safety analysis for medicine combinations with severity levels</p>
+            </div>
+
+            <div class="p-6 bg-white rounded-lg shadow-sm border hover:shadow-lg transition">
+                <div class="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">🔍 Smart Medicine Search</h3>
+                <p class="text-gray-600">AI-powered search with generic alternatives and price comparison</p>
+            </div>
+
+            <div class="p-6 bg-white rounded-lg shadow-sm border hover:shadow-lg transition">
+                <div class="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-2">100% Compliant</h3>
-                <p class="text-gray-600">DISHA, MCI/NMC, and Drugs Act compliant</p>
+                <h3 class="text-xl font-semibold mb-2">🔒 100% Compliant</h3>
+                <p class="text-gray-600">DISHA, MCI/NMC, and Drugs Act compliant with audit trails</p>
             </div>
 
-            <div class="p-6 bg-white rounded-lg shadow-sm border">
-                <div class="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                    <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Multi-User Access</h3>
-                <p class="text-gray-600">Role-based access for doctors, staff, and admins</p>
-            </div>
-
-            <div class="p-6 bg-white rounded-lg shadow-sm border">
+            <div class="p-6 bg-white rounded-lg shadow-sm border hover:shadow-lg transition">
                 <div class="h-12 w-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
                     <svg class="h-6 w-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-2">Lightning Fast</h3>
-                <p class="text-gray-600">Cloud-based platform with instant access anywhere</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tech Stack -->
-    <section class="bg-gray-50 py-20">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Built with Modern Technology</h2>
-                <p class="text-xl text-gray-600">Powered by industry-leading tools and frameworks</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-gray-900 mb-2">Next.js 14</div>
-                    <p class="text-gray-600">React Framework</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-gray-900 mb-2">Supabase</div>
-                    <p class="text-gray-600">Database & Auth</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-gray-900 mb-2">OpenAI</div>
-                    <p class="text-gray-600">AI Engine</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold text-gray-900 mb-2">Tailwind</div>
-                    <p class="text-gray-600">CSS Framework</p>
-                </div>
+                <h3 class="text-xl font-semibold mb-2">⚡ Lightning Fast</h3>
+                <p class="text-gray-600">Cloud-based platform with instant access anywhere, anytime</p>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="bg-blue-600 text-white py-20">
+    <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">
                 Ready to transform your practice?
@@ -168,9 +178,14 @@
             <p class="text-xl mb-8 opacity-90">
                 Open source and free to use. Start building today!
             </p>
-            <a href="https://github.com/itvaibhav-jpg/mediscript" class="inline-block px-8 py-3 bg-white text-blue-600 rounded-md hover:bg-gray-100 text-lg font-medium">
-                View on GitHub →
-            </a>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#demo" class="inline-block px-8 py-4 bg-white text-blue-600 rounded-lg hover:shadow-xl transition text-lg font-medium">
+                    🚀 Try Demo Now
+                </a>
+                <a href="https://github.com/itvaibhav-jpg/mediscript" class="inline-block px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 transition text-lg font-medium">
+                    ⭐ Star on GitHub
+                </a>
+            </div>
         </div>
     </section>
 
@@ -190,9 +205,9 @@
                 <div>
                     <h3 class="font-semibold mb-4">Product</h3>
                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="https://github.com/itvaibhav-jpg/mediscript">GitHub</a></li>
-                        <li><a href="https://github.com/itvaibhav-jpg/mediscript/blob/main/SETUP.md">Documentation</a></li>
+                        <li><a href="#features" class="hover:text-white transition">Features</a></li>
+                        <li><a href="#demo" class="hover:text-white transition">Demo</a></li>
+                        <li><a href="https://github.com/itvaibhav-jpg/mediscript" class="hover:text-white transition">GitHub</a></li>
                     </ul>
                 </div>
                 <div>
@@ -205,15 +220,14 @@
                 <div>
                     <h3 class="font-semibold mb-4">Resources</h3>
                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="https://github.com/itvaibhav-jpg/mediscript/blob/main/README.md">README</a></li>
-                        <li><a href="https://github.com/itvaibhav-jpg/mediscript/blob/main/SETUP.md">Setup Guide</a></li>
-                        <li><a href="https://github.com/itvaibhav-jpg/mediscript/blob/main/DEPLOY.md">Deploy Guide</a></li>
+                        <li><a href="https://github.com/itvaibhav-jpg/mediscript/blob/main/README.md" class="hover:text-white transition">Documentation</a></li>
+                        <li><a href="https://github.com/itvaibhav-jpg/mediscript/blob/main/MVP.md" class="hover:text-white transition">MVP Guide</a></li>
                     </ul>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
                 <p>© 2024 EdgesOf Solutions Pvt. Ltd. All rights reserved.</p>
-                <p class="mt-2">Open Source Project • MIT License</p>
+                <p class="mt-2">Open Source Project • MIT License • Powered by GPT-4</p>
             </div>
         </div>
     </footer>
