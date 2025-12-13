@@ -6,18 +6,40 @@
 
 ---
 
-## ⚠️ IMPORTANT: Patients Tab Fix Available
+## 🚀 DEPLOY TO PRODUCTION (Choose Your Method)
 
-The Patients Tab feature requires a quick fix to be fully functional. **Choose your method:**
+### ⚡ Method 1: Automated Script (2 Minutes)
 
-### 🚀 Quick Fix (30 seconds)
 ```bash
 git clone https://github.com/itvaibhav-jpg/mediscript.git
 cd mediscript
+chmod +x deploy-to-production.sh
+./deploy-to-production.sh
+```
+
+**See:** [ONE_CLICK_DEPLOY.md](./ONE_CLICK_DEPLOY.md)
+
+### 🤖 Method 2: GitHub Actions (Fully Automated)
+
+Set up once, then every push to `main` auto-deploys!
+
+**See:** [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)
+
+### 🔘 Method 3: One-Click Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/itvaibhav-jpg/mediscript)
+
+---
+
+## ⚠️ IMPORTANT: Patients Tab Fix
+
+The Patients Tab requires a quick fix to be fully functional:
+
+```bash
 git apply patients-tab.patch
 ```
 
-**See [QUICK_START.md](./QUICK_START.md) for details**
+**See:** [QUICK_START.md](./QUICK_START.md)
 
 ---
 
@@ -30,60 +52,7 @@ MediScript is India's first **AI-powered prescription platform** using GPT-4 to 
 - 🎤 **Voice-to-Prescription** - Speak symptoms, get prescriptions
 - ⚠️ **Drug Interaction Checker** - Real-time safety analysis
 - 🔍 **Smart Medicine Search** - AI-powered medicine discovery
-- 👥 **Patient Management** - Complete patient database (requires fix)
-
----
-
-## 🚀 QUICK DEPLOY (5 MINUTES)
-
-### **Option 1: One-Click Deploy**
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/itvaibhav-jpg/mediscript)
-
-1. Click button above
-2. Login to Vercel
-3. Add `OPENAI_API_KEY` environment variable
-4. Deploy!
-5. **Apply Patients Tab fix** (see above)
-
-### **Option 2: Manual Deploy**
-
-```bash
-# 1. Clone repository
-git clone https://github.com/itvaibhav-jpg/mediscript.git
-cd mediscript
-
-# 2. Apply Patients Tab fix
-git apply patients-tab.patch
-
-# 3. Install dependencies
-npm install
-
-# 4. Add environment variables
-cp .env.example .env.local
-# Edit .env.local and add your OPENAI_API_KEY
-
-# 5. Run locally
-npm run dev
-
-# 6. Deploy to Vercel
-npm i -g vercel
-vercel --prod
-```
-
-**Full deployment guide:** [DEPLOY_NOW.md](./DEPLOY_NOW.md)
-
----
-
-## 🔧 Patients Tab Fix Documentation
-
-| Document | Purpose |
-|----------|---------|
-| **[QUICK_START.md](./QUICK_START.md)** | 30-second fix guide |
-| **[PATIENTS_TAB_FIX_SUMMARY.md](./PATIENTS_TAB_FIX_SUMMARY.md)** | Complete summary |
-| **[APPLY_PATCH_INSTRUCTIONS.md](./APPLY_PATCH_INSTRUCTIONS.md)** | Detailed patch guide |
-| **[FINAL_SOLUTION.md](./FINAL_SOLUTION.md)** | All fix methods |
-| **[demo/ai/COMPLETE_FIX_INSTRUCTIONS.md](./demo/ai/COMPLETE_FIX_INSTRUCTIONS.md)** | Manual step-by-step |
+- 👥 **Patient Management** - Complete patient database
 
 ---
 
@@ -170,6 +139,7 @@ GET /api/ai/medicine-search?q=paracetamol&ai=true
 - Vercel (hosting)
 - Cloudflare (CDN)
 - GitHub (version control)
+- GitHub Actions (CI/CD)
 
 ---
 
@@ -180,9 +150,10 @@ GET /api/ai/medicine-search?q=paracetamol&ai=true
 - [x] Voice-to-Prescription
 - [x] Drug Interaction Checker
 - [x] Smart Medicine Search
-- [x] Patient Management (with fix)
+- [x] Patient Management
 - [x] Beautiful UI
 - [x] API Documentation
+- [x] Automated Deployment
 
 ### **🚧 Coming Soon:**
 - [ ] Appointment Scheduling
@@ -216,16 +187,19 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ## 📖 DOCUMENTATION
 
-### **Setup & Deployment:**
+### **Deployment:**
+- **Automated Script:** [ONE_CLICK_DEPLOY.md](./ONE_CLICK_DEPLOY.md)
+- **GitHub Actions:** [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)
+- **Manual Deploy:** [DEPLOY_NOW.md](./DEPLOY_NOW.md)
+
+### **Setup:**
 - **Setup Guide:** [SETUP.md](./SETUP.md)
-- **Deployment Guide:** [DEPLOY_NOW.md](./DEPLOY_NOW.md)
 - **MVP Documentation:** [MVP.md](./MVP.md)
 - **API Reference:** [MVP.md#api-usage-examples](./MVP.md#api-usage-examples)
 
 ### **Patients Tab Fix:**
 - **Quick Start:** [QUICK_START.md](./QUICK_START.md)
 - **Complete Summary:** [PATIENTS_TAB_FIX_SUMMARY.md](./PATIENTS_TAB_FIX_SUMMARY.md)
-- **Patch Instructions:** [APPLY_PATCH_INSTRUCTIONS.md](./APPLY_PATCH_INSTRUCTIONS.md)
 - **All Methods:** [FINAL_SOLUTION.md](./FINAL_SOLUTION.md)
 
 ---
@@ -301,6 +275,28 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - 99.9% uptime
 - Global CDN
 - Auto-scaling
+
+---
+
+## 🚀 QUICK START
+
+### Local Development:
+```bash
+git clone https://github.com/itvaibhav-jpg/mediscript.git
+cd mediscript
+git apply patients-tab.patch
+npm install
+npm run dev
+```
+
+### Production Deployment:
+```bash
+chmod +x deploy-to-production.sh
+./deploy-to-production.sh
+```
+
+### Automated CI/CD:
+See [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)
 
 ---
 
