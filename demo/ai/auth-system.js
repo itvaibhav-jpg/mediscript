@@ -198,8 +198,8 @@ class AuthSystem {
         this.loadSession();
     }
 
-    // Login method
-    login(username, password, selectedRole = null) {
+    // Login method - FIXED: Now accepts rememberMe parameter
+    login(username, password, selectedRole = null, rememberMe = false) {
         const user = USERS_DATABASE.find(u => 
             u.username === username && u.password === password
         );
@@ -219,8 +219,8 @@ class AuthSystem {
             };
         }
 
-        // Create session
-        this.createSession(user);
+        // Create session with rememberMe parameter - FIXED
+        this.createSession(user, rememberMe);
 
         return {
             success: true,
@@ -229,7 +229,7 @@ class AuthSystem {
         };
     }
 
-    // Create session
+    // Create session - FIXED: Now properly uses rememberMe parameter
     createSession(user, rememberMe = false) {
         const sessionData = {
             userId: user.id,
@@ -239,12 +239,13 @@ class AuthSystem {
             email: user.email,
             permissions: user.permissions,
             loginTime: new Date().toISOString(),
+            rememberMe: rememberMe, // Store rememberMe preference
             ...this.getRoleSpecificData(user)
         };
 
         this.currentUser = sessionData;
 
-        // Store in localStorage or sessionStorage
+        // Store in localStorage or sessionStorage based on rememberMe - FIXED
         const storage = rememberMe ? localStorage : sessionStorage;
         storage.setItem(this.sessionKey, JSON.stringify(sessionData));
 
