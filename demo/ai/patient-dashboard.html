@@ -63,6 +63,11 @@
             color: #666;
         }
 
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
         .btn {
             padding: 10px 20px;
             border: none;
@@ -329,11 +334,11 @@
                     <div class="card-title">🏥 Health Metrics</div>
                     <div class="health-metric">
                         <span class="metric-label">Blood Group</span>
-                        <span class="metric-value" id="bloodGroup">O+</span>
+                        <span class="metric-value" id="bloodGroup">Loading...</span>
                     </div>
                     <div class="health-metric">
                         <span class="metric-label">Age</span>
-                        <span class="metric-value" id="age">35 years</span>
+                        <span class="metric-value" id="age">Loading...</span>
                     </div>
                     <div class="health-metric">
                         <span class="metric-label">Last Visit</span>
@@ -383,16 +388,24 @@
                 return;
             }
 
+            // Display user info
             document.getElementById('userName').textContent = session.name;
             if (session.patientId) {
                 document.getElementById('patientId').textContent = `Patient ID: ${session.patientId}`;
             }
+            
+            // FIXED: Dynamically load blood group and age
             if (session.bloodGroup) {
                 document.getElementById('bloodGroup').textContent = session.bloodGroup;
+            } else {
+                document.getElementById('bloodGroup').textContent = 'Not Set';
             }
+            
             if (session.dob) {
                 const age = new Date().getFullYear() - new Date(session.dob).getFullYear();
                 document.getElementById('age').textContent = `${age} years`;
+            } else {
+                document.getElementById('age').textContent = 'Not Set';
             }
         });
 
