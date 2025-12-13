@@ -1,0 +1,45 @@
+name: Deploy to Vercel Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 🔧 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build project
+        run: npm run build
+        env:
+          NEXT_PUBLIC_COMPANY_NAME: "EdgesOf Solutions Pvt. Ltd."
+          NEXT_PUBLIC_PRODUCT_NAME: "MediScript"
+          NEXT_PUBLIC_PRODUCT_TAGLINE: "Prescribe with Intelligence"
+
+      - name: 🚀 Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
+
+      - name: ✅ Deployment Complete
+        run: |
+          echo "🎉 Deployment to Vercel Production completed successfully!"
+          echo "📊 Check your Vercel dashboard for deployment details"
