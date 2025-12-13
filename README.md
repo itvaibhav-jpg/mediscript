@@ -2,38 +2,57 @@
 
 **Prescribe with Intelligence**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/itvaibhav-jpg/mediscript)
+[![Deploy to Railway](https://railway.app/button.svg)](https://railway.app/template/mediscript)
 
 ---
 
-## 🚀 DEPLOY TO PRODUCTION (Choose Your Method)
+## 🚂 DEPLOY TO RAILWAY (RECOMMENDED - 2 Minutes)
 
-### ⚡ Method 1: Automated Script (2 Minutes)
+### ⚡ Automated Deployment Script
 
 ```bash
 git clone https://github.com/itvaibhav-jpg/mediscript.git
 cd mediscript
+chmod +x deploy-to-railway.sh
+./deploy-to-railway.sh
+```
+
+**See:** [RAILWAY_QUICK_START.md](./RAILWAY_QUICK_START.md)
+
+### 🎯 Why Railway?
+- ✅ **$5 free credit/month** - Perfect for development
+- ✅ **Full Next.js support** - No limitations
+- ✅ **Built-in databases** - PostgreSQL, MySQL, Redis ready
+- ✅ **Auto-deploy from GitHub** - Push and forget
+- ✅ **Automatic HTTPS** - SSL included
+- ✅ **Simple pricing** - Pay only for what you use
+
+**Complete Guide:** [RAILWAY_DEPLOYMENT_GUIDE.md](./RAILWAY_DEPLOYMENT_GUIDE.md)
+
+---
+
+## 🎯 Alternative Deployment Options
+
+### Vercel (AI-Optimized)
+```bash
 chmod +x deploy-to-production.sh
 ./deploy-to-production.sh
 ```
-
 **See:** [ONE_CLICK_DEPLOY.md](./ONE_CLICK_DEPLOY.md)
 
-### 🤖 Method 2: GitHub Actions (Fully Automated)
+### Other Platforms
+- **Netlify** - Easy alternative
+- **Render** - Great free tier
+- **AWS Amplify** - Enterprise-grade
+- **Self-hosted** - Full control
 
-Set up once, then every push to `main` auto-deploys!
-
-**See:** [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)
-
-### 🔘 Method 3: One-Click Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/itvaibhav-jpg/mediscript)
+**See:** [DEPLOY_WITHOUT_VERCEL.md](./DEPLOY_WITHOUT_VERCEL.md)
 
 ---
 
 ## ⚠️ IMPORTANT: Patients Tab Fix
 
-The Patients Tab requires a quick fix to be fully functional:
+The Patients Tab requires a quick fix (automatically applied by deployment scripts):
 
 ```bash
 git apply patients-tab.patch
@@ -53,6 +72,11 @@ MediScript is India's first **AI-powered prescription platform** using GPT-4 to 
 - ⚠️ **Drug Interaction Checker** - Real-time safety analysis
 - 🔍 **Smart Medicine Search** - AI-powered medicine discovery
 - 👥 **Patient Management** - Complete patient database
+- 🏥 **Lab Integration** - Order tests, track results
+- 💊 **Pharmacy Integration** - Direct prescription sending
+- 📹 **Video Consultation** - Built-in telemedicine
+- 📄 **Document Management** - Upload/scan reports
+- 📊 **Analytics Dashboard** - Track outcomes
 
 ---
 
@@ -136,7 +160,8 @@ GET /api/ai/medicine-search?q=paracetamol&ai=true
 - Row Level Security
 
 ### **Infrastructure:**
-- Vercel (hosting)
+- Railway (primary hosting)
+- Vercel (alternative)
 - Cloudflare (CDN)
 - GitHub (version control)
 - GitHub Actions (CI/CD)
@@ -151,6 +176,11 @@ GET /api/ai/medicine-search?q=paracetamol&ai=true
 - [x] Drug Interaction Checker
 - [x] Smart Medicine Search
 - [x] Patient Management
+- [x] Lab Integration
+- [x] Pharmacy Integration
+- [x] Video Consultation
+- [x] Document Management
+- [x] Analytics Dashboard
 - [x] Beautiful UI
 - [x] API Documentation
 - [x] Automated Deployment
@@ -158,27 +188,32 @@ GET /api/ai/medicine-search?q=paracetamol&ai=true
 ### **🚧 Coming Soon:**
 - [ ] Appointment Scheduling
 - [ ] Prescription History
-- [ ] Analytics Dashboard
 - [ ] Mobile Apps (iOS/Android)
-- [ ] Telemedicine Integration
+- [ ] Multi-language Support
+- [ ] Telemedicine Enhancements
 
 ---
 
 ## 🔐 ENVIRONMENT VARIABLES
 
-Create `.env.local` file:
-
+### Required:
 ```env
-# REQUIRED - OpenAI API Key
 OPENAI_API_KEY=sk-your-key-here
+```
 
-# OPTIONAL - Supabase
+### Optional (for database features):
+```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-key
+```
 
-# OPTIONAL - App Configuration
+### App Configuration:
+```env
 NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_COMPANY_NAME="EdgesOf Solutions Pvt. Ltd."
+NEXT_PUBLIC_PRODUCT_NAME="MediScript"
+NEXT_PUBLIC_PRODUCT_TAGLINE="Prescribe with Intelligence"
 ```
 
 **Get OpenAI API Key:** https://platform.openai.com/api-keys
@@ -188,9 +223,11 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ## 📖 DOCUMENTATION
 
 ### **Deployment:**
-- **Automated Script:** [ONE_CLICK_DEPLOY.md](./ONE_CLICK_DEPLOY.md)
+- **Railway (Recommended):** [RAILWAY_QUICK_START.md](./RAILWAY_QUICK_START.md)
+- **Railway Complete Guide:** [RAILWAY_DEPLOYMENT_GUIDE.md](./RAILWAY_DEPLOYMENT_GUIDE.md)
+- **Vercel Deployment:** [ONE_CLICK_DEPLOY.md](./ONE_CLICK_DEPLOY.md)
+- **Other Platforms:** [DEPLOY_WITHOUT_VERCEL.md](./DEPLOY_WITHOUT_VERCEL.md)
 - **GitHub Actions:** [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)
-- **Manual Deploy:** [DEPLOY_NOW.md](./DEPLOY_NOW.md)
 
 ### **Setup:**
 - **Setup Guide:** [SETUP.md](./SETUP.md)
@@ -211,6 +248,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - Check drug interactions instantly
 - Voice-based prescription entry
 - Manage patient database
+- Track patient history
 - Learn from AI suggestions
 
 ### **For Clinics:**
@@ -218,7 +256,8 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - Reduce prescription errors
 - Improve patient safety
 - Save time on documentation
-- Track patient history
+- Integrate with labs and pharmacies
+- Video consultations
 
 ### **For Hospitals:**
 - Standardize prescriptions
@@ -226,6 +265,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - Train junior doctors
 - Audit prescriptions
 - Manage patient records
+- Analytics and reporting
 
 ---
 
@@ -235,18 +275,21 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 - 10 AI prescriptions/month
 - Basic features
 - Community support
+- Railway $5 credit/month
 
 ### **Pro - ₹999/month:**
 - Unlimited AI prescriptions
 - All AI features
 - Priority support
 - API access
+- Custom branding
 
 ### **Enterprise - Custom:**
 - White-label solution
 - Custom AI training
 - Dedicated support
 - SLA guarantees
+- On-premise deployment
 
 ---
 
@@ -289,14 +332,14 @@ npm install
 npm run dev
 ```
 
-### Production Deployment:
+### Production Deployment (Railway):
 ```bash
-chmod +x deploy-to-production.sh
-./deploy-to-production.sh
+chmod +x deploy-to-railway.sh
+./deploy-to-railway.sh
 ```
 
 ### Automated CI/CD:
-See [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)
+See [RAILWAY_DEPLOYMENT_GUIDE.md](./RAILWAY_DEPLOYMENT_GUIDE.md)
 
 ---
 
@@ -317,13 +360,15 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - **Email:** support@mediscript.ai
 - **Documentation:** [docs.mediscript.ai](https://docs.mediscript.ai)
 - **GitHub Issues:** [github.com/itvaibhav-jpg/mediscript/issues](https://github.com/itvaibhav-jpg/mediscript/issues)
+- **Railway Support:** https://discord.gg/railway
 
 ---
 
 ## 🙏 ACKNOWLEDGMENTS
 
 - OpenAI for GPT-4 and Whisper
-- Vercel for hosting
+- Railway for hosting platform
+- Vercel for alternative hosting
 - Supabase for database
 - shadcn/ui for components
 - The open-source community
@@ -333,3 +378,5 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 **Made with ❤️ by EdgesOf Solutions**
 
 **Powered by Bhindi AI**
+
+**Deployed on Railway 🚂**
